@@ -1,23 +1,23 @@
 # Profile-Readme-WakaTime
 <p align=center><img src="https://img.shields.io/github/license/avinal/Profile-Readme-WakaTime" alt="License"><img src="https://img.shields.io/github/v/release/avinal/Profile-Readme-WakaTime" alt="Releases"><img src="https://github.com/avinal/avinal/workflows/Build%20Graph/badge.svg" alt="Build"><img src="https://wakatime.com/badge/github/avinal/Profile-Readme-WakaTime.svg" alt="Time Tracked"></p>
 
-If you use WakaTime to track your coding activity. You can add that to your README as a bar graph or embed in your blog/portfolio. Just add this action to any of your repository and there you have it. See mine below. 
+WakaTimeを使ってコーディング活動を記録している場合。これを棒グラフとしてREADMEに追加したり、ブログやポートフォリオに埋め込むことができます。このアクションを任意のリポジトリに追加するだけで、完成です。私の場合は以下の通りです。
 
 ## My WakaTime Coding Activity
 <img src="https://github.com/avinal/avinal/blob/main/images/stat.svg" alt="Avinal WakaTime Activity"/>
 
 ## How to add one to your README.md
-1. First get your WakaTime API Key. You can get it from your [WakaTime](https://wakatime.com) account settings. 
-2. Save WakaTime API Key to Repository Secret. Find that by clicking the Settings tab. Keep the name of secret as **WAKATIME_API_KEY**.
-3. Add following line in your README.md of your repo.
+1. まず、WakaTime API Keyを取得します。あなたの[WakaTime](https://wakatime.com)のアカウント設定から取得できます。
+2. 2. WakaTime API KeyをRepository Secretに保存します。Settings]タブをクリックしてそれを見つけます。シークレットの名前は **WAKATIME_API_KEY** のままにしておきます。
+3. 3. レポのREADME.mdに以下の行を追加します。
   ```html
   <img src="https://github.com/<username>/<repository-name>/blob/<branch-name>/images/stat.svg" alt="Alternative Text"/>
   Example: <img src="https://github.com/avinal/avinal/blob/main/images/stat.svg" alt="Avinal WakaTime Activity"/>
   ```
-  You can use this method to embed in web pages too. *Do not use markdown method of inserting images. It does not work some times.*
+  この方法を使えば、Webページにも埋め込むことができます。*マークダウン方式の画像挿入は使用しないでください。動作しないことがあります。*
   
-4. Click **Action** tab and **choose set up a workflow yourself**.
-5. Copy the following code into the opened file, you can search for **WakaTime Stat** in marketplace tab for assistance.
+4. **Action**タブをクリックし、**Set up a workflow yourself**を選択します。
+5. 開いたファイルに以下のコードをコピーします。**WakaTime Stat**をマーケットプレイスタブで検索すると助けになります。
 ```yml
 name: WakaTime status update 
 
@@ -31,22 +31,22 @@ jobs:
     name: Update the WakaTime Stat
     runs-on: ubuntu-latest
     steps:
-      # Use avinal/Profile-Readme-WakaTime@<latest-release-tag> for latest stable release
-      # Do not change the line below except the word master with tag number maybe
-      # If you have forked this project you can use <username>/Profile-Readme-WakaTime@master instead
+      # 最新の安定版リリースには avinal/Profile-Readme-WakaTime@<latest-release-tag> を使用してください。
+      # 以下の行は、masterという単語とタグ番号を除いて、変更しないでください。
+      # このプロジェクトをフォークした場合は、代わりに <username>/Profile-Readme-WakaTime@master を使うことができます。
       - uses: avinal/Profile-Readme-WakaTime@master
         with:
-          # WakaTime API key stored in secrets, do not directly paste it here
+          # WakaTimeのAPIキーはシークレットに保存されていますので、ここに直接ペーストしないでください。
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
-          # Automatic github token
+          # 自動githubトークン
           GITHUB_TOKEN: ${{ github.token }}
-          # Branch - newer GitHub repositories have "main" as default branch, change to main in that case, default is master
+          # Branch - 新しいGitHubリポジトリでは、デフォルトのブランチが "main "になっているので、その場合はmainに変更します。
           BRANCH: "master"
-          # Manual Commit messages - write your own messages here
+          # マニュアル・コミット・メッセージ - ここに自分のメッセージを書く
           COMMIT_MSG: "Automated Coding Activity Update :alien:"
 
 ```
-6. Please wait till 12 AM UTC to run this workflow automatically. Or you can force run it by going to Action tab. Or you can add following lines under `on:` to run with every push. Search for 12 AM UTC to find equivalent time in your time zone. 
+6. このワークフローを自動的に実行するには、午前12時（UTC）までお待ちください。または、Actionタブで強制実行することもできます。または、 `on:` の下に以下の行を追加して、プッシュされるたびに実行することもできます。12 AM UTCで検索すると、あなたのタイムゾーンでの同等の時間がわかります。
 ```yml
 on:
   push:
@@ -56,58 +56,58 @@ on:
 ```
 
 ## Implementation Details
-This GitHub Action is divided into three parts. I didn't want to use Docker but it seems it doesn't works well without it. Let dive a little on technical details. Three parts are as below.
+このGitHub Actionは3つのパートに分かれています。本当はDockerを使いたくなかったのですが、どうやら使わないとうまくいかないようです。少し技術的な話をします。3つのパートは以下の通りです。
 
-1. *[main.py](https://github.com/avinal/Profile-Readme-WakaTime/blob/master/main.py)* python script. This script contains many procedures.
+1. *[main.py](https://github.com/avinal/Profile-Readme-WakaTime/blob/master/main.py)* pythonスクリプトです。このスクリプトには多くの手順が含まれています。
   * [Getting JSON data file via WakaTime API](https://github.com/avinal/Profile-Readme-WakaTime/blob/master/main.py#L52) 
   ```python
     def get_stats() -> list:
       ...
       return data_list
   ```
-  This function parses the json file received and scraps out the useful data as a list of lists. Data scraped are language list, time spent on each language, percentage of time, start date and end date. For this action I have limited the number of languages to 5 however it should be very easy to increase that number.
+  この関数は、受け取ったjsonファイルを解析し、有用なデータをリストとしてスクレイピングします。スクラップされるデータは、言語リスト、各言語に費やした時間、時間の割合、開始日と終了日です。このアクションでは、言語の数を5つに制限していますが、その数を増やすことは非常に簡単です。
   * [Setting the Timeline](https://github.com/avinal/Profile-Readme-WakaTime/blob/master/main.py#L13)
   ```python
     def this_week(dates: list) -> str:
       ...
       return f"Coding Activity During: {week_start.strftime('%d %B, %Y')} to {week_end.strftime('%d %B, %Y')}"
   ```
-  The start date and end date scraped in the last function is used here to set the timeline. Because date in json is provided in UTC as below
+  ここでは、前回の関数で取得した開始日と終了日を使ってタイムラインを設定します。jsonの日付はUTCで提供されているため、以下のようになります。
   ```json
     date:	"YYYY-MM-DDTHH:MM:SSZ"
   ```
-  We striped it to simple dates only. We can set the manually by taking the current time from the system. But that method is flawed. But this methos ensures that JSON was received latest and the request was successful. Any anmoly will point to a failure in request.
+  単純な日付だけにしました。現在の時刻をシステムから取得して手動で設定することもできます。しかし、この方法には欠陥があります。しかし、この方法では、最新のJSONを受信し、リクエストが成功したことを確認します。異常があれば、リクエストに失敗したことになります。
   * [Creating a bar graph](https://github.com/avinal/Profile-Readme-WakaTime/blob/master/main.py#L21)
   ```python
     def make_graph(data: list):
       ...
       savefig(...)
   ```
-  Lastly its time to generate the graph and save them as image. This functions uses the data scraped in the first step. Creating a bar graph using `matploylib` is easy. Decorating was a bit deficult. I wanted this graph to merge with GitHub's look so I chose to color the bar as GitHub colors the languages. That data is stored as `colors.json`. Many of the languages have slighly different spelling in GitHub as compared to WakaTime. So some languages are shown in default color. That can be improved if we notice that language and change their color manually. Lastly the graph is saved both as SVG and PNG. SVGs are better to put in a zoomable page.
+  最後に、グラフを生成して画像として保存します。この関数では、最初のステップでスクレイピングしたデータを使用します。`matploylib` を使った棒グラフの作成は簡単です。デコレーションはちょっと難しいですね。このグラフは GitHub の外観に合わせたかったので、GitHub が言語に色をつけるように棒グラフにも色をつけることにしました。このデータは `colors.json` として保存されています。多くの言語は、WakaTimeと比べてGitHubでの綴りが微妙に異なります。そのため、いくつかの言語はデフォルトの色で表示されています。これは、その言語に気づいて手動で色を変更すれば改善されます。最後に、このグラフはSVGとPNGの両方で保存されます。SVGはズーム可能なページに置くのに適しています。
   
-2. *[entrypoint.py](https://github.com/avinal/Profile-Readme-WakaTime/blob/master/entrypoint.sh)* shell script. This shell script clones the repo, copies the image and push changes to the master. There were several problems. First of all authantication. This was solved by using a remote repository address using GitHub Token. And it seems that GitHub doesn't allows to commit without a username and email. So I used **github-actions** bot email. 
+2. *[entrypoint.py](https://github.com/avinal/Profile-Readme-WakaTime/blob/master/entrypoint.sh)* シェルスクリプトです。このシェルスクリプトは、repoをクローンし、イメージをコピーし、変更をマスターにプッシュします。いくつかの問題がありました。まず、認証です。これはGitHub Tokenを使ってリモートリポジトリのアドレスを使うことで解決しました。また、GitHubではユーザー名とメールアドレスがないとコミットできないようです。そこで、**github-actions** というボットメールを使いました。
 ```bash
   remote_repo="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
   git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
   git config user.name "GitHub Actions"
 ```
-*41898282* is the id assigned to the github-actions bot. Don't ask where I found them 🙂.
+*41898282* は、github-actions のボットに割り当てられた ID です。どこで見つけたかは聞かないでください🙂。
 
-Another problem was to seperate repository name from combined *username/repository-name* provided by `${GITHUB_REPOSITORY}`. GitHub doesn't provied a direct way to get just the repo name. We used *Internal Field Seperator*. It returns an array and works similiar to `split()` command in Python and Java. 
+もうひとつの問題は、`${GITHUB_REPOSITORY}` で提供される *username/repository-name* の組み合わせからリポジトリ名を切り離すことでした。GitHub は、リポジトリ名だけを直接取得する方法を提供していません。そこで、*Internal Field Seperator* を使用しました。これは配列を返すもので、PythonやJavaの`split()`コマンドに似た動作をします。
 ```bash
   # '/' is the seperator
   IFS='/' read -ra reponame <<< "${GITHUB_REPOSITORY}"
   # returned {username, repository}
   repository="${reponame[1]}"
 ```
-After that all other commands are pretty straight. Commit the added files and push them.
+この後のコマンドはすべて単純です。追加したファイルをコミットし、プッシュします。
 
-3. *[Dockerfile](https://github.com/avinal/Profile-Readme-WakaTime/blob/master/Dockerfile)* **IMPORTANT** took a lot of time to reach this state 🥱. This is where all the magic happens. We are running `ubuntu:latest` inside the container. We first update the distribution. Then install required python packages. Lastly we envoke the pyhton script and shell script. 
+3. *[Dockerfile](https://github.com/avinal/Profile-Readme-WakaTime/blob/master/Dockerfile)* **重要** この状態になるまでには、かなりの時間がかかりました（笑）。ここからが魔法の始まりです。コンテナの中で`ubuntu:latest`を動かしています。まずディストリビューションをアップデートします。次に、必要なpythonパッケージをインストールします。最後にpyhtonスクリプトとシェルスクリプトを起動します。
 
-There was a almost impossible problem, I searched hundreds of post that *how can I access the generated files inside Docker container*, but no luck. But at last I found a workaround(oviously otherwise you wouldn't be reading this by now 🤣) Actually each command is run in a seperate virtual sub-container. As the command ends its output is also lost but not when you club multiple commands together. At least not until every command is finished. The generated files are available to the next clubbed process. I did that by combining the python script run and shell script run.
+ほとんど不可能な問題がありました。 *Dockerコンテナ内で生成されたファイルにアクセスするにはどうすればよいか* という記事を何百も探しましたが、見つかりませんでした。しかし、ついに私は回避策を見つけました（そうでなければ、今頃あなたはこれを読んでいないでしょう🤣）実際、各コマンドは別々の仮想サブコンテナで実行されます。コマンドが終了すると、その出力も失われますが、複数のコマンドをまとめて実行した場合には失われません。少なくとも、すべてのコマンドが終了するまでは。生成されたファイルはクラブ化された次のプロセスで利用できます。私はpythonスクリプトの実行とシェルスクリプトの実行を組み合わせることでこれを行いました。
 ```dockerfile
   CMD python3 /main.py && /entrypoint.sh
 ```
-This part is the smallest yet took the most time and tries while developing this action.
+この部分は最も小さいものですが、このアクションを開発する際に最も多くの時間と試みを費やしました。
 
-Finally the project is complete and I wanted to write all the challanges so that somebody could develop a better version or take help from my experience. Hope you enjoyed it.
+最終的にプロジェクトは完成しましたが、誰かがより良いバージョンを開発したり、私の経験から助けを得たりできるように、挑戦したことをすべて書き残しておきたかったのです。お楽しみいただけましたら幸いです。
