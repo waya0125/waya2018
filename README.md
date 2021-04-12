@@ -6,6 +6,8 @@
     <img src="https://wakatime.com/badge/github/waya2018/waya2018.svg" alt="Time Tracked">
 </p>
 
+<img src="https://github.com/waya2018/waya2018/blob/main/images/stat.svg" alt="Alternative Text"/>
+
 name: WakaTime status update 
 
 on:
