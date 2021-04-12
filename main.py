@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import requests
 
-waka_key = os.getenv("INPUT_WAKATIME_API_KEY")
+waka_key = os.getenv("fa39efcb-2bc4-412d-9c73-5672a524801c")
 
 
 def this_week(dates: list) -> str:
