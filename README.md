@@ -1,10 +1,62 @@
 # Profile-Readme-WakaTime
 <p align=center>
     <a href="//twitter.com/wayamoti2015">
-    <img src="https://img.shields.io/twitter/url?label=Twitter&style=social" alt="Twitter"></a>
+    <img src="https://img.shields.io/twitter/url?label=Twitter&style=social&url=https%3A%2F%2Ftwitter.com%2Fwayamoti2015" alt="Twitter"></a>
     <img src="https://github.com/avinal/avinal/workflows/Build%20Graph/badge.svg" alt="Build">
     <img src="https://wakatime.com/badge/github/waya2018/waya2018.svg" alt="Time Tracked">
 </p>
+
+name: WakaTime status update 
+
+on:
+  schedule:
+    # Runs at 12 am  '0 0 * * *'  UTC
+    - cron: '1 0 * * *'
+
+jobs:
+update-readme:
+    name: Update the WakaTime Stat
+    runs-on: ubuntu-latest
+    steps:
+    # Use avinal/Profile-Readme-WakaTime@<latest-release-tag> for latest stable release
+    # Do not change the line below until you have forked this repository
+    # If you have forked this project you can use <username>/Profile-Readme-WakaTime@master instead
+    - uses: avinal/Profile-Readme-WakaTime@master
+        with:
+        # WakaTime API key stored in secrets, do not directly paste it here
+        WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
+        # Automatic github token
+        GITHUB_TOKEN: ${{ github.token }}
+        # Branch - newer GitHub repositories have "main" as default branch, change to main in that case, default is master
+        BRANCH: "master"
+        # Manual Commit messages - write your own messages here
+        COMMIT_MSG: "Automated Coding Activity Update :alien:"
+
+on:
+    push:
+        branches: [ master ]
+    schedule:
+        - cron: '1 0 * * *' 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 WakaTimeを使ってコーディング活動を記録している場合。これを棒グラフとしてREADMEに追加したり、ブログやポートフォリオに埋め込むことができます。このアクションを任意のリポジトリに追加するだけで、完成です。私の場合は以下の通りです。
 
@@ -27,7 +79,7 @@ WakaTimeを使ってコーディング活動を記録している場合。これ
 name: WakaTime status update 
 
 on:
-  schedule:
+    schedule:
     # Runs at 12 am  '0 0 * * *'  UTC
     - cron: '1 0 * * *'
 
