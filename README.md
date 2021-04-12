@@ -1,5 +1,5 @@
 # Profile-Readme-WakaTime
-<p align=center><img src="https://img.shields.io/github/license/avinal/Profile-Readme-WakaTime" alt="License"><img src="https://img.shields.io/github/v/release/avinal/Profile-Readme-WakaTime" alt="Releases"><img src="https://github.com/avinal/avinal/workflows/Build%20Graph/badge.svg" alt="Build"><img src="https://wakatime.com/badge/github/avinal/Profile-Readme-WakaTime.svg" alt="Time Tracked"></p>
+<p align=center><img src="https://img.shields.io/github/license/avinal/Profile-Readme-WakaTime" alt="License"><img src="https://img.shields.io/github/v/release/avinal/Profile-Readme-WakaTime" alt="Releases"><img src="https://github.com/avinal/avinal/workflows/Build%20Graph/badge.svg" alt="Build"><img src="https://wakatime.com/badge/github/waya2018/waya2018.svg" alt="Time Tracked"></p>
 
 WakaTimeを使ってコーディング活動を記録している場合。これを棒グラフとしてREADMEに追加したり、ブログやポートフォリオに埋め込むことができます。このアクションを任意のリポジトリに追加するだけで、完成です。私の場合は以下の通りです。
 
